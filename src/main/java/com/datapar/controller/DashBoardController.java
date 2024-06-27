@@ -24,10 +24,10 @@ public class DashBoardController {
     @Autowired
     private DashBoardService dashBoardService;
 
-    @Operation(summary = "Get rating statistics", description = "Get statistics of ratings grouped by score")
+    @Operation(summary = "Obter estatísticas de avaliações", description = "Obter estatísticas de avaliações agrupadas por pontuação")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved statistics"),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
+            @ApiResponse(responseCode = "200", description = "Estatísticas recuperadas com sucesso"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
     @GetMapping("/score-statistics")
     public ResponseEntity<DashBoardDTO> getScoreStatistics() {

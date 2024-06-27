@@ -36,11 +36,11 @@ public class RatingController {
     private RatingService ratingService;
     
 
-    @Operation(summary = "Create a new rating", description = "Creates a new rating using the provided data")
+    @Operation(summary = "Criar uma nova avaliação", description = "Cria uma nova avaliação utilizando os dados fornecidos")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Rating successfully created",
+        @ApiResponse(responseCode = "200", description = "Avaliação criada com sucesso",
             content = @Content(schema = @Schema(implementation = Rating.class))),
-        @ApiResponse(responseCode = "400", description = "Invalid input data")
+        @ApiResponse(responseCode = "400", description = "Dados de entrada inválidos")
     })
     @PostMapping
     public ResponseEntity<RatingDTO> createRating(
@@ -54,9 +54,9 @@ public class RatingController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @Operation(summary = "Get all ratings", description = "Retrieves a list of all ratings")
+    @Operation(summary = "Obter todas as avaliações", description = "Recupera uma lista de todas as avaliações")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "List of ratings retrieved successfully",
+        @ApiResponse(responseCode = "200", description = "Lista de avaliações recuperada com sucesso",
             content = @Content(array = @ArraySchema(schema = @Schema(implementation = Rating.class))))
     })
     @GetMapping
@@ -69,9 +69,13 @@ public class RatingController {
         return new ResponseEntity<List<RatingDTO>>(listDto, HttpStatus.OK);
     }
     
-   
+    @Operation(summary = "Validar acesso por email", description = "Verifica se o email informado já existe na base de dados de avaliações")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Email válido"),
+        @ApiResponse(responseCode = "404", description = "Email não encontrado")
+    })
     @GetMapping("/validate")
-    public ResponseEntity<RatingDTO> validateAccess(@RequestParam String email) {
+    public ResponseEntity<RatingDTO> validateEmailAccess(@RequestParam String email) {
         
     	RatingDTO ratingDTO = ratingService.getRatingByEmail(email);
         

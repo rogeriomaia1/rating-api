@@ -28,10 +28,10 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
-    @Operation(summary = "User Login", description = "Endpoint to authenticate user based on email and password.")
+    @Operation(summary = "Autenticação de Usuário", description = "Endpoint para autenticar o usuário com base no email e senha.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User authenticated successfully"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized")
+            @ApiResponse(responseCode = "200", description = "Usuário autenticado com sucesso"),
+            @ApiResponse(responseCode = "401", description = "Não autorizado")
     })
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(
