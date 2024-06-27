@@ -1,6 +1,7 @@
 package com.datapar.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +17,35 @@ public class DashBoardService {
     @Autowired
     private IRatingRepository ratingRepository;
 
-    public List<DashBoardDTO> getScoreStatistics() {
+    public DashBoardDTO getScoreStatistics() {
         List<Rating> ratings = ratingRepository.findAll();
+        
+        Map<String, Long> groupedRatings = ratings.stream()
+                .collect(Collectors.groupingBy(
+                        rating -> convertScoreToString(rating.getScore()),
+                        Collectors.counting()
+                ));
+        
+        List<String> scores = groupedRatings.keySet().stream().collect(Collectors.toList());
+        List<Long> counts = groupedRatings.values().stream().collect(Collectors.toList());
+       
+        return new DashBoardDTO(scores, counts);
+    }
 
-        return ratings.stream()
-                .collect(Collectors.groupingBy(Rating::getScore, Collectors.counting()))
-                .entrySet().stream()
-                .map(entry -> new DashBoardDTO(entry.getKey(), entry.getValue()))
-                .collect(Collectors.toList());
+    private String convertScoreToString(int score) {
+        switch (score) {
+            case 1:
+                return "Péssimo";
+            case 2:
+                return "Ruim";
+            case 3:
+                return "Regular";
+            case 4:
+                return "Bom";
+            case 5:
+                return "Ótimo";
+            default:
+                return "Desconhecido";
+        }
     }
 }

@@ -1,12 +1,14 @@
 package com.datapar.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
 public class DashBoardDTO {
-    private Integer score;
-    private Long count;
+    private List<String> listScore;
+    private List<Long> listCount;
 }
 

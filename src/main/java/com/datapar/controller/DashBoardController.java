@@ -30,12 +30,12 @@ public class DashBoardController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @GetMapping("/score-statistics")
-    public ResponseEntity<List<DashBoardDTO>> getScoreStatistics() {
+    public ResponseEntity<DashBoardDTO> getScoreStatistics() {
     	
     	log.info("[DashBoardController.getScoreStatistics()] - Inicio chamada GET para obter dados do dashboard.");
     	
-    	List<DashBoardDTO> listDto  = dashBoardService.getScoreStatistics();
+    	DashBoardDTO dto = dashBoardService.getScoreStatistics();
     	
-    	return new ResponseEntity<>(listDto, HttpStatus.OK);
+    	return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 }
