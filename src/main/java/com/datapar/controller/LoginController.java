@@ -1,6 +1,7 @@
 package com.datapar.controller;
 
 import java.util.HashMap;
+
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import static com.datapar.util.Utilities.log;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -35,6 +37,8 @@ public class LoginController {
     public ResponseEntity<Map<String, String>> login(
             @Schema(description = "Login credentials", required = true)
             @RequestBody LoginRequestDTO loginRequest) {
+
+    	log.info("[LoginController.login()] - Inicio chamada POST da autenticação do ADM. Email={" + loginRequest.getEmail() + "}");
 
         boolean isAuthenticated = userService.authenticate(loginRequest.getEmail(), loginRequest.getPassword());
 

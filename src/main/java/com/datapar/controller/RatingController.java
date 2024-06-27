@@ -1,15 +1,21 @@
 package com.datapar.controller;
 
+import static com.datapar.util.Utilities.log;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.datapar.dto.RatingDTO;
+import com.datapar.exception.RatingException;
 import com.datapar.model.Rating;
 import com.datapar.service.RatingService;
 
@@ -28,6 +34,7 @@ public class RatingController {
 
     @Autowired
     private RatingService ratingService;
+    
 
     @Operation(summary = "Create a new rating", description = "Creates a new rating using the provided data")
     @ApiResponses(value = {
@@ -36,10 +43,15 @@ public class RatingController {
         @ApiResponse(responseCode = "400", description = "Invalid input data")
     })
     @PostMapping
-    public Rating createRating(
+    public ResponseEntity<RatingDTO> createRating(
         @Parameter(description = "Rating data to be created", required = true) 
-        @Valid @RequestBody RatingDTO ratingDTO) {
-        return ratingService.saveRating(ratingDTO);
+        @Valid @RequestBody RatingDTO ratingDTO) throws RatingException {
+    	
+    	log.info("[RatingController.createRating()] - Inicio chamada POST inserção votação. Request={" + ratingDTO.toString() + "}");
+    	
+    	RatingDTO dto = ratingService.saveRating(ratingDTO);
+        
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @Operation(summary = "Get all ratings", description = "Retrieves a list of all ratings")
@@ -48,7 +60,25 @@ public class RatingController {
             content = @Content(array = @ArraySchema(schema = @Schema(implementation = Rating.class))))
     })
     @GetMapping
-    public List<Rating> getAllRatings() {
-        return ratingService.getAllRatings();
+    public ResponseEntity<List<RatingDTO>> getAllRatings() throws RatingException {
+    	
+    	log.info("[RatingController.getAllRatings()] - Inicio chamada GET para obter votações.");
+    	
+    	List<RatingDTO> listDto = ratingService.getAllRatings();
+		
+        return new ResponseEntity<List<RatingDTO>>(listDto, HttpStatus.OK);
+    }
+    
+   
+    @GetMapping("/validate")
+    public ResponseEntity<RatingDTO> validateAccess(@RequestParam String email) {
+        
+    	RatingDTO ratingDTO = ratingService.getRatingByEmail(email);
+        
+        if (ratingDTO == null) {
+            return ResponseEntity.ok(ratingDTO);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
