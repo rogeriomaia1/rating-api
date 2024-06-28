@@ -11,6 +11,7 @@ Esta é uma API desenvolvida para gerenciar avaliações de clientes em uma apli
  - Java
  - Spring Boot
  - Swagger para documentação
+ - Postgres
 
 ## Como Usar
 Certifique-se de ter o Java e o Maven instalados. Clone o repositório e execute o projeto usando o seguinte comando:
@@ -18,12 +19,13 @@ Certifique-se de ter o Java e o Maven instalados. Clone o repositório e execute
 ```bash
 mvn spring-boot:run
 ```
+## Base de dados
+Foi utilizado no projeto o banco relacional PostgresSQL, os scripts estão na raiz do projeto:
+ - rating-api/script.sql
 
+## Swagger
+Acesse a documentação da API(http://localhost:8080/swagger-ui.html) para detalhes sobre os endpoints disponíveis e como utilizá-los.
 
-
-### Acesse a documentação da API em http://localhost:8080/swagger-ui.html para detalhes sobre os endpoints disponíveis e como utilizá-los.
-
-Contribuições
-Contribuições são bem-vindas! Sinta-se à vontade para enviar pull requests ou abrir issues para reportar problemas ou sugestões de melhorias.
+#### Contribuições são bem-vindas! Sinta-se à vontade para enviar pull requests ou abrir issues para reportar problemas ou sugestões de melhorias.
 
 
